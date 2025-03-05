@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 app.get("/", async(req,res)=> {
-    res.json("hii i'm live");
+    res.json("hii i'm live and i'm working for this project");
 })
 // API route for file upload
 app.post("/upload", upload.single("file"), (req, res) => {
