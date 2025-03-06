@@ -4,18 +4,28 @@ const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 const FormData = require("form-data");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 10000;
 
+// Enable CORS for frontend access
+app.use(cors());
+
 // Middleware to parse form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Ensure "uploads" directory exists
+const uploadDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
 // Multer setup for handling file uploads
 const storage = multer.diskStorage({
-  destination: "uploads/",
+  destination: uploadDir,
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname);
   },
@@ -36,13 +46,16 @@ app.post("/transcribe", upload.single("file"), async (req, res) => {
   try {
     console.log("Received file:", req.file);
     console.log("Received body:", req.body);
-    console.log("API Key:", process.env.DEEPINFRA_API_KEY ? "Loaded" : "Missing");
 
     if (!req.file) {
       return res.status(400).json({ error: "No file uploaded" });
     }
 
-    const audioPath = path.join(__dirname, "uploads", req.file.filename);
+    if (!process.env.DEEPINFRA_API_KEY) {
+      return res.status(500).json({ error: "Missing API Key" });
+    }
+
+    const audioPath = path.join(uploadDir, req.file.filename);
     const formData = new FormData();
     formData.append("file", fs.createReadStream(audioPath));
     formData.append("model", "openai/whisper-large-v3");
@@ -59,7 +72,7 @@ app.post("/transcribe", upload.single("file"), async (req, res) => {
     );
 
     console.log("API Response:", response.data);
-    
+
     // Delete uploaded file after processing
     fs.unlinkSync(audioPath);
 
@@ -80,5 +93,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server running on port ${port}`);
 });
