@@ -85,4 +85,16 @@ app.post("/transcribe", upload.single("file"), async (req, res) => {
   }
 });
 
-// E
+// Error handling middleware for Multer errors
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    console.error("❌ Multer error:", err);
+    return res.status(400).json({ error: err.message });
+  }
+  next(err);
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(` Server running on http://localhost:${port}`);
+});
