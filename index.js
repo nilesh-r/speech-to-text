@@ -7,7 +7,7 @@ const app = express();
 
 app.use(cors()); // Enable CORS if needed
 app.use(express.json());
-console.log("online ten");
+console.log("online");
 // Configure Multer storage
 const storage = multer.diskStorage({
     destination: "./uploads/", // Folder where files will be stored
