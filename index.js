@@ -4,7 +4,7 @@ const path = require("path");
 const cors = require("cors");
 
 const app = express();
-const port = 3000;
+
 app.use(cors()); // Enable CORS if needed
 app.use(express.json());
 console.log("online ten");
@@ -29,7 +29,7 @@ app.post("/upload", upload.single("file"), (req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 
