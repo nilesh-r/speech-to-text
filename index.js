@@ -29,7 +29,7 @@ app.post("/upload", upload.single("file"), (req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 10000; // Use Render's assigned port
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 
