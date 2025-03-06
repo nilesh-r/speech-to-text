@@ -5,9 +5,10 @@ const cors = require("cors");
 
 const app = express();
 
+
 app.use(cors()); // Enable CORS if needed
 app.use(express.json());
-console.log("online ten");
+console.log("online");
 // Configure Multer storage
 const storage = multer.diskStorage({
     destination: "./uploads/", // Folder where files will be stored
@@ -18,7 +19,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 app.get("/", async(req,res)=> {
-    res.json("hii i'm live");
+    res.json("hii i'm live and i'm working for this project");
 })
 // API route for file upload
 app.post("/upload", upload.single("file"), (req, res) => {
