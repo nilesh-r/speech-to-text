@@ -7,7 +7,7 @@ const FormData = require("form-data");
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 10000;
+const port = process.env.PORT || 10000;
 
 // Middleware to parse form data
 app.use(express.json());
