@@ -4,7 +4,7 @@ const path = require("path");
 const cors = require("cors");
 
 const app = express();
-
+const port = 10000;
 app.use(cors()); // Enable CORS if needed
 app.use(express.json());
 console.log("online");
