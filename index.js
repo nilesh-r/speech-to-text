@@ -6,7 +6,9 @@ const cors = require("cors");
 const app = express();
 
 
-app.use(cors()); // Enable CORS if needed
+app.use(cors({
+    origin:"*"
+})); // Enable CORS if needed
 app.use(express.json());
 console.log("online");
 // Configure Multer storage
